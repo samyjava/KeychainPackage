@@ -1,3 +1,5 @@
 # KeychainPackage
 
-A description of this package.
+This package is a wrapper over Keychain API to make it easier to use.
+
+
