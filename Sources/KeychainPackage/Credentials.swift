@@ -9,7 +9,7 @@
 import Foundation
 
 
-public struct InternetCredential {
+public struct InternetCredential: Equatable {
     var account: String
     var password: String
     var server: String
@@ -18,7 +18,7 @@ public struct InternetCredential {
 }
 
 
-public struct GenericCredential {
+public struct GenericCredential: Equatable {
     var account: String
     var password: String
     var additionalInfo: String?

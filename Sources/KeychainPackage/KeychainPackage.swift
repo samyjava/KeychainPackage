@@ -25,7 +25,9 @@ public struct KeychainWrapper {
         }
         
         if let info = credential.additionalInfo {
-          query[kSecAttrLabel as String] = info
+            query[kSecAttrLabel as String] = info
+        }else {
+            query[kSecAttrLabel as String] = ""
         }
         
         let status = SecItemAdd(query as CFDictionary, nil)
@@ -73,8 +75,10 @@ public struct KeychainWrapper {
             let existingServer = existingItem[kSecAttrServer as String] as? String else {
                 throw KeychainWrapperError.unexpectedPasswordData
         }
-        let existingPort = existingItem[kSecAttrPort as String] as? Int
-        let existingInfo = existingItem[kSecAttrLabel as String] as? String
+        let fetchedPort = existingItem[kSecAttrPort as String] as? Int
+        let existingPort = fetchedPort == 0 ? nil : fetchedPort
+        let fetchedExistingInfo = existingItem[kSecAttrLabel as String] as? String
+        let existingInfo = fetchedExistingInfo == "" ? nil : fetchedExistingInfo
         let credentioal = InternetCredential(account: existingAccount,
                                              password: existingPassword,
                                              server: existingServer,
@@ -105,6 +109,7 @@ public struct KeychainWrapper {
         if let info = item.additionalInfo {
             query[kSecAttrLabel as String] = info
         }
+        
         let status = SecItemCopyMatching(query as CFDictionary, nil)
         guard status != errSecItemNotFound else {
             throw KeychainWrapperError.notFound
@@ -112,23 +117,21 @@ public struct KeychainWrapper {
         guard status == errSecSuccess else {
             throw KeychainWrapperError.unhandledError(status: status)
         }
-        var newQuery: [String:Any] = [:]
         
-        if let account = account {
-            newQuery[kSecAttrAccount as String] = account
-        }
+        var attributes: [String:Any] = [:]
+        attributes[kSecAttrAccount as String] = item.account
         if let server = server {
-            newQuery[kSecAttrServer as String] = server
+            attributes[kSecAttrServer as String] = server
         }
         if let port = port {
-            newQuery[kSecAttrPort as String] = port
+            attributes[kSecAttrPort as String] = port
         }
         if let additionalInfo = additionalInfo {
-            newQuery[kSecAttrLabel as String] = additionalInfo
+            attributes[kSecAttrLabel as String] = additionalInfo
         }
-        let newStatus = SecItemUpdate(query as CFDictionary, newQuery as CFDictionary)
+        let newStatus = SecItemUpdate(query as CFDictionary, attributes as CFDictionary)
         guard newStatus == errSecSuccess else {
-            throw KeychainWrapperError.unhandledError(status: status)
+            throw KeychainWrapperError.unhandledError(status: newStatus)
         }
     }
     
@@ -141,6 +144,7 @@ public struct KeychainWrapper {
                                    kSecAttrAccount as String: item.account,
                                    kSecAttrServer as String: item.server,
                                    kSecMatchLimit as String: kSecMatchLimitOne]
+        
         if let port = item.port {
             query[kSecAttrPort as String] = port
         }
@@ -217,7 +221,7 @@ public struct KeychainWrapper {
         return genericCredential
     }
     
-        
+    
     /// Update a Generic Credential - any parameter that not nil will update
     /// - Parameters:
     ///   - item: item that you want to update
@@ -264,7 +268,7 @@ public struct KeychainWrapper {
         var query: [String:Any] = [kSecClass as String: kSecClassInternetPassword,
                                    kSecAttrAccount as String: item.account,
                                    kSecMatchLimit as String: kSecMatchLimitOne]
-
+        
         if let info = item.additionalInfo {
             query[kSecAttrLabel as String] = info
         }
@@ -272,6 +276,17 @@ public struct KeychainWrapper {
         let status = SecItemDelete(query as CFDictionary)
         guard status == errSecSuccess else {
             throw KeychainWrapperError.unhandledError(status: status)
+        }
+    }
+    
+    func deleteAllTestData(for account: String) {
+        let query: [String:Any] = [kSecClass as String: kSecClassInternetPassword,
+                                   kSecAttrAccount as String: account,
+                                   kSecMatchLimit as String: kSecMatchLimitAll]
+        
+        let status = SecItemDelete(query as CFDictionary)
+        if status != errSecSuccess {
+            print("********************************** \(status) *********************")
         }
     }
 }

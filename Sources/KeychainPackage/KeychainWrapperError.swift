@@ -9,7 +9,7 @@
 import Foundation
 
 
-public enum KeychainWrapperError: Error {
+public enum KeychainWrapperError: Error, Equatable {
     case unexpectedPasswordData
     case unhandledError(status: OSStatus)
     case notFound
