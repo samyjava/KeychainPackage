@@ -119,7 +119,7 @@ public struct KeychainWrapper {
         }
         
         var attributes: [String:Any] = [:]
-        attributes[kSecAttrAccount as String] = item.account
+
         if let server = server {
             attributes[kSecAttrServer as String] = server
         }
@@ -128,6 +128,9 @@ public struct KeychainWrapper {
         }
         if let additionalInfo = additionalInfo {
             attributes[kSecAttrLabel as String] = additionalInfo
+        }
+        if let account = account {
+            attributes[kSecAttrAccount as String] = account
         }
         let newStatus = SecItemUpdate(query as CFDictionary, attributes as CFDictionary)
         guard newStatus == errSecSuccess else {
@@ -174,6 +177,8 @@ public struct KeychainWrapper {
         
         if let info = credential.additionalInfo {
             query[kSecAttrLabel as String] = info
+        } else {
+            query[kSecAttrLabel as String] = ""
         }
         
         let status = SecItemAdd(query as CFDictionary, nil)
@@ -201,7 +206,7 @@ public struct KeychainWrapper {
         }
         var result: CFTypeRef?
         let status = SecItemCopyMatching(query as CFDictionary, &result)
-        guard status != errSecCRLNotFound else {
+        guard status != errSecItemNotFound else {
             throw KeychainWrapperError.notFound
         }
         guard status == errSecSuccess else {
@@ -265,7 +270,7 @@ public struct KeychainWrapper {
     /// - Throws:
     ///     - `KeychainWrapperError.unhandledError` if any unexpected error occure in `Keychain` API with associated value `status`
     func deleteGenericCredential(for item: GenericCredential) throws {
-        var query: [String:Any] = [kSecClass as String: kSecClassInternetPassword,
+        var query: [String:Any] = [kSecClass as String: kSecClassGenericPassword,
                                    kSecAttrAccount as String: item.account,
                                    kSecMatchLimit as String: kSecMatchLimitOne]
         
@@ -280,13 +285,24 @@ public struct KeychainWrapper {
     }
     
     func deleteAllTestData(for account: String) {
+        #if DEBUG
         let query: [String:Any] = [kSecClass as String: kSecClassInternetPassword,
                                    kSecAttrAccount as String: account,
                                    kSecMatchLimit as String: kSecMatchLimitAll]
         
         let status = SecItemDelete(query as CFDictionary)
         if status != errSecSuccess {
-            print("********************************** \(status) *********************")
+            print("********************************** \(status) **********************************")
         }
+        
+        let query2: [String:Any] = [kSecClass as String: kSecClassGenericPassword,
+                                   kSecAttrAccount as String: account,
+                                   kSecMatchLimit as String: kSecMatchLimitAll]
+        
+        let status2 = SecItemDelete(query2 as CFDictionary)
+        if status2 != errSecSuccess {
+            print("********************************** \(status2) **********************************")
+        }
+        #endif
     }
 }
