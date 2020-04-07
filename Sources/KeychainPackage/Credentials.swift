@@ -11,7 +11,7 @@ import Foundation
 
 public struct InternetCredential: Equatable {
     var account: String
-    var password: String
+    var secret: String
     var server: String
     var port: Int?
     var additionalInfo: String?
@@ -20,6 +20,6 @@ public struct InternetCredential: Equatable {
 
 public struct GenericCredential: Equatable {
     var account: String
-    var password: String
+    var secret: String
     var additionalInfo: String?
 }

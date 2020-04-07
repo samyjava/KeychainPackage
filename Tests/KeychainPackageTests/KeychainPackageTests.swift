@@ -15,7 +15,7 @@ final class KeychainPackageTests: XCTestCase {
     }
     
     func testInternetCredentialWithAccountAndServer() {
-        self.internetCredential = InternetCredential(account: "testaccount", password: "Aa123456", server: "http://google.com", port: nil, additionalInfo: nil)
+        self.internetCredential = InternetCredential(account: "testaccount", secret: "Aa123456", server: "http://google.com", port: nil, additionalInfo: nil)
         do {
             try wrappper.add(credential: internetCredential!)
             let fetchedCredential = try wrappper.fetchInternetCredential(account: "testaccount", server: "http://google.com", port: nil, additionalInfo: nil)
@@ -26,7 +26,7 @@ final class KeychainPackageTests: XCTestCase {
     }
     
     func testInternetCredentialWithAccountAndServerAndAdditionalInfo() {
-        self.internetCredential = InternetCredential(account: "testaccount", password: "Aa123456", server: "http://google.com", port: nil, additionalInfo: "SamJavadizadeh")
+        self.internetCredential = InternetCredential(account: "testaccount", secret: "Aa123456", server: "http://google.com", port: nil, additionalInfo: "SamJavadizadeh")
         do {
             try wrappper.add(credential: internetCredential!)
             let fetchedCredential = try wrappper.fetchInternetCredential(account: "testaccount", server: "http://google.com", port: nil, additionalInfo: "SamJavadizadeh")
@@ -37,7 +37,7 @@ final class KeychainPackageTests: XCTestCase {
     }
     
     func testInternetCredentialWithAccountAndServerAndPort() {
-        self.internetCredential = InternetCredential(account: "testaccount", password: "Aa123456", server: "http://google.com", port: 100, additionalInfo: nil)
+        self.internetCredential = InternetCredential(account: "testaccount", secret: "Aa123456", server: "http://google.com", port: 100, additionalInfo: nil)
         do {
             try wrappper.add(credential: internetCredential!)
             let fetchedCredential = try wrappper.fetchInternetCredential(account: "testaccount", server: "http://google.com", port: 100, additionalInfo: nil)
@@ -48,7 +48,7 @@ final class KeychainPackageTests: XCTestCase {
     }
     
     func testInternetCredentialNotFoundFetch() {
-        self.internetCredential = InternetCredential(account: "testaccount", password: "Aa123456", server: "http://google.com", port: 100, additionalInfo: nil)
+        self.internetCredential = InternetCredential(account: "testaccount", secret: "Aa123456", server: "http://google.com", port: 100, additionalInfo: nil)
         do {
             try wrappper.add(credential: internetCredential!)
             _ = try wrappper.fetchInternetCredential(account: "testaccount2", server: "http://google.com", port: 100, additionalInfo: nil)
@@ -59,7 +59,7 @@ final class KeychainPackageTests: XCTestCase {
     }
     
     func testInternetCredentialDeletion() {
-        self.internetCredential = InternetCredential(account: "testaccount", password: "Aa123456", server: "http://google.com", port: 100, additionalInfo: nil)
+        self.internetCredential = InternetCredential(account: "testaccount", secret: "Aa123456", server: "http://google.com", port: 100, additionalInfo: nil)
         do {
             try wrappper.add(credential: internetCredential!)
             try wrappper.deleteInternetCredential(for: self.internetCredential!)
@@ -71,7 +71,7 @@ final class KeychainPackageTests: XCTestCase {
     }
     
     func testInternetCredentialUpdateServer() {
-        self.internetCredential = InternetCredential(account: "testaccount", password: "Aa123456", server: "http://google.com", port: nil, additionalInfo: nil)
+        self.internetCredential = InternetCredential(account: "testaccount", secret: "Aa123456", server: "http://google.com", port: nil, additionalInfo: nil)
         do {
             try wrappper.add(credential: internetCredential!)
             try wrappper.updateInternetCredential(for: self.internetCredential!, account: nil, server: "http://yahoo.com", port: nil, additionalInfo: nil)
@@ -84,7 +84,7 @@ final class KeychainPackageTests: XCTestCase {
     }
     
     func testInternetCredentialUpdateAccount() {
-        self.internetCredential = InternetCredential(account: "testaccount", password: "Aa123456", server: "http://google.com", port: nil, additionalInfo: nil)
+        self.internetCredential = InternetCredential(account: "testaccount", secret: "Aa123456", server: "http://google.com", port: nil, additionalInfo: nil)
         do {
             try wrappper.add(credential: internetCredential!)
             try wrappper.updateInternetCredential(for: self.internetCredential!, account: "testaccount2", server: nil, port: nil, additionalInfo: nil)
@@ -97,7 +97,7 @@ final class KeychainPackageTests: XCTestCase {
     }
     
     func testInternetCredentialUpdatePort() {
-        self.internetCredential = InternetCredential(account: "testaccount", password: "Aa123456", server: "http://google.com", port: 10, additionalInfo: nil)
+        self.internetCredential = InternetCredential(account: "testaccount", secret: "Aa123456", server: "http://google.com", port: 10, additionalInfo: nil)
         do {
             try wrappper.add(credential: internetCredential!)
             try wrappper.updateInternetCredential(for: self.internetCredential!, account: nil, server: "http://google.com", port: 20, additionalInfo: nil)
@@ -110,7 +110,7 @@ final class KeychainPackageTests: XCTestCase {
     }
     
     func testInternetCredentialUpdateAdditionalInfo() {
-        self.internetCredential = InternetCredential(account: "testaccount", password: "Aa123456", server: "http://google.com", port: nil, additionalInfo: "MOREINFO")
+        self.internetCredential = InternetCredential(account: "testaccount", secret: "Aa123456", server: "http://google.com", port: nil, additionalInfo: "MOREINFO")
         do {
             try wrappper.add(credential: internetCredential!)
             try wrappper.updateInternetCredential(for: self.internetCredential!, account: nil, server: "http://google.com", port: nil, additionalInfo: "MOREINFO2")
@@ -123,7 +123,7 @@ final class KeychainPackageTests: XCTestCase {
     }
     
     func testInternetCredentialUpdateAdditionalInfoFromNil() {
-        self.internetCredential = InternetCredential(account: "testaccount", password: "Aa123456", server: "http://google.com", port: nil, additionalInfo: nil)
+        self.internetCredential = InternetCredential(account: "testaccount", secret: "Aa123456", server: "http://google.com", port: nil, additionalInfo: nil)
         do {
             try wrappper.add(credential: internetCredential!)
             try wrappper.updateInternetCredential(for: self.internetCredential!, account: nil, server: "http://google.com", port: nil, additionalInfo: "MOREINFO2")
@@ -136,7 +136,7 @@ final class KeychainPackageTests: XCTestCase {
     }
     
     func testInternetCredentialUpdateAllProperties() {
-        self.internetCredential = InternetCredential(account: "testaccount", password: "Aa123456", server: "http://google.com", port: 10, additionalInfo: "MOREINFO")
+        self.internetCredential = InternetCredential(account: "testaccount", secret: "Aa123456", server: "http://google.com", port: 10, additionalInfo: "MOREINFO")
         do {
             try wrappper.add(credential: internetCredential!)
             try wrappper.updateInternetCredential(for: self.internetCredential!, account: "testaccount2", server: "http://yahoo.com", port: 20, additionalInfo: "MOREINFO2")
@@ -152,7 +152,7 @@ final class KeychainPackageTests: XCTestCase {
     }
     
     func testGenericCredentialWithAccountAndServer() {
-        self.genericCredential = GenericCredential(account: "testaccount", password: "Aa123456",  additionalInfo: nil)
+        self.genericCredential = GenericCredential(account: "testaccount", secret: "Aa123456",  additionalInfo: nil)
         do {
             try wrappper.add(credential: genericCredential!)
             let fetchedCredential = try wrappper.fetchGenericCredential(account: "testaccount",  additionalInfo: nil)
@@ -163,7 +163,7 @@ final class KeychainPackageTests: XCTestCase {
     }
     
     func testGenericCredentialWithAccountAndAdditionalInfo() {
-        self.genericCredential = GenericCredential(account: "testaccount", password: "Aa123456",  additionalInfo: "SamJavadizadeh")
+        self.genericCredential = GenericCredential(account: "testaccount", secret: "Aa123456",  additionalInfo: "SamJavadizadeh")
         do {
             try wrappper.add(credential: genericCredential!)
             let fetchedCredential = try wrappper.fetchGenericCredential(account: "testaccount",  additionalInfo: "SamJavadizadeh")
@@ -174,7 +174,7 @@ final class KeychainPackageTests: XCTestCase {
     }
     
     func testGenericCredentialNotFoundFetch() {
-        self.genericCredential = GenericCredential(account: "testaccount", password: "Aa123456", additionalInfo: nil)
+        self.genericCredential = GenericCredential(account: "testaccount", secret: "Aa123456", additionalInfo: nil)
         do {
             try wrappper.add(credential: genericCredential!)
             _ = try wrappper.fetchGenericCredential(account: "testaccount2", additionalInfo: nil)
@@ -185,7 +185,7 @@ final class KeychainPackageTests: XCTestCase {
     }
     
     func testGenericCredentialDeletion() {
-        self.genericCredential = GenericCredential(account: "testaccount", password: "Aa123456", additionalInfo: nil)
+        self.genericCredential = GenericCredential(account: "testaccount", secret: "Aa123456", additionalInfo: nil)
         do {
             try wrappper.add(credential: genericCredential!)
             try wrappper.deleteGenericCredential(for: self.genericCredential!)
@@ -197,7 +197,7 @@ final class KeychainPackageTests: XCTestCase {
     }
     
     func testGenericCredentialUpdateAccount() {
-        self.genericCredential = GenericCredential(account: "testaccount", password: "Aa123456",  additionalInfo: nil)
+        self.genericCredential = GenericCredential(account: "testaccount", secret: "Aa123456",  additionalInfo: nil)
         do {
             try wrappper.add(credential: genericCredential!)
             try wrappper.updateGenericCredential(for: self.genericCredential!, account: "testaccount2", additionalInfo: nil)
@@ -210,7 +210,7 @@ final class KeychainPackageTests: XCTestCase {
     }
     
     func testGenericCredentialUpdateAdditionalInfo() {
-        self.genericCredential = GenericCredential(account: "testaccount", password: "Aa123456",  additionalInfo: "MOREINFO")
+        self.genericCredential = GenericCredential(account: "testaccount", secret: "Aa123456",  additionalInfo: "MOREINFO")
         do {
             try wrappper.add(credential: genericCredential!)
             try wrappper.updateGenericCredential(for: self.genericCredential!, account: nil,  additionalInfo: "MOREINFO2")
@@ -223,7 +223,7 @@ final class KeychainPackageTests: XCTestCase {
     }
     
     func testGenericCredentialUpdateAdditionalInfoFromNil() {
-        self.genericCredential = GenericCredential(account: "testaccount", password: "Aa123456",  additionalInfo: nil)
+        self.genericCredential = GenericCredential(account: "testaccount", secret: "Aa123456",  additionalInfo: nil)
         do {
             try wrappper.add(credential: genericCredential!)
             try wrappper.updateGenericCredential(for: self.genericCredential!, account: nil,  additionalInfo: "MOREINFO2")

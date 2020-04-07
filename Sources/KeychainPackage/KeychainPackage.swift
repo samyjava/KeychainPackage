@@ -11,7 +11,7 @@ public struct KeychainWrapper {
     ///     - `KeychainWrapperError.unexpectedPasswordData` if `credential.password` cannot convert to `UTF8` data
     ///     - `KeychainWrapperError.unhandledError` if any unexpected error occure in `Keychain` API
     func add(credential: InternetCredential) throws {
-        guard let passwordData = credential.password.data(using: .utf8) else {
+        guard let passwordData = credential.secret.data(using: .utf8) else {
             throw KeychainWrapperError.unexpectedPasswordData
         }
         var query: [String:Any] = [kSecClass as String: kSecClassInternetPassword,
@@ -80,7 +80,7 @@ public struct KeychainWrapper {
         let fetchedExistingInfo = existingItem[kSecAttrLabel as String] as? String
         let existingInfo = fetchedExistingInfo == "" ? nil : fetchedExistingInfo
         let credentioal = InternetCredential(account: existingAccount,
-                                             password: existingPassword,
+                                             secret: existingPassword,
                                              server: existingServer,
                                              port: existingPort,
                                              additionalInfo: existingInfo)
@@ -168,7 +168,7 @@ public struct KeychainWrapper {
     ///     - `KeychainWrapperError.unexpectedPasswordData` if `credential.password` cannot convert to `UTF8` data
     ///     - `KeychainWrapperError.unhandledError` if any unexpected error occure in `Keychain` API
     func add(credential: GenericCredential) throws {
-        guard let passwordData = credential.password.data(using: .utf8) else {
+        guard let passwordData = credential.secret.data(using: .utf8) else {
             throw KeychainWrapperError.unexpectedPasswordData
         }
         var query: [String:Any] = [kSecClass as String: kSecClassGenericPassword,
@@ -221,7 +221,7 @@ public struct KeychainWrapper {
         let existingAdditionalInfo = existingItem[kSecAttrLabel as String] as? String
         
         let genericCredential = GenericCredential(account: existingAccount,
-                                                  password: existingPassword,
+                                                  secret: existingPassword,
                                                   additionalInfo: existingAdditionalInfo)
         return genericCredential
     }
