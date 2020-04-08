@@ -1,5 +1,5 @@
 # KeychainPackage
-![Swift](https://github.com/samyjava/KeychainPackage/workflows/Swift/badge.svg) [![Swift Package Manager compatible](https://img.shields.io/badge/Swift%20Package%20Manager-compatible-brightgreen.svg)](https://github.com/apple/swift-package-manager)
+![Swift](https://github.com/samyjava/KeychainPackage/workflows/Swift/badge.svg) [![Swift Package Manager compatible](https://img.shields.io/badge/Swift%20Package%20Manager-compatible-brightgreen.svg)](https://github.com/apple/swift-package-manager) ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/samyjava/KeychainPackage) 
 ## This package is a wrapper over Keychain API to make it easier to use.
 If you want to store your user's secrets, you have to put these secrets in Keychain encrypted database. But Keychain API is not straightforward to use! So you can use this wrapper over the API and get rid of the complexity of Keychain.
 
